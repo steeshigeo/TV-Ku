@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IndoLive TV - Modern Streaming</title>
+    <title>TV Ku - Nonton Seru</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -22,14 +22,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        slate: {
-                            850: '#151e2e',
-                            900: '#0f172a',
-                            950: '#020617',
-                        }
+                        sans: ['Poppins', 'sans-serif'],
                     }
                 }
             }
@@ -37,100 +30,138 @@
     </script>
 
     <style>
-        /* Custom Scrollbar for a sleek look */
+        /* Modern Vibrant Scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 10px;
         }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
         ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
+            background: rgba(236, 72, 153, 0.5); /* Pink hover */
+            border: 2px solid transparent;
+            background-clip: padding-box;
         }
         
+        /* Glassmorphism Utility */
         .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200 font-sans h-screen flex flex-col overflow-hidden">
+<body class="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 text-white font-sans h-screen flex flex-col overflow-hidden selection:bg-pink-500 selection:text-white">
 
     <!-- Navbar -->
-    <nav class="shrink-0 z-50 glass-panel border-b border-slate-800 px-4 sm:px-6 h-16 flex items-center justify-between">
+    <nav class="shrink-0 z-50 glass-panel px-4 sm:px-6 h-20 flex items-center justify-between border-b-0 border-white/10">
         <div class="flex items-center gap-3">
-            <div class="bg-blue-600 p-2 rounded-lg text-white shadow-lg shadow-blue-500/20 flex items-center justify-center">
-                <i data-lucide="tv" class="w-5 h-5"></i>
+            <!-- Cute Custom SVG Logo -->
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-pink-500 to-orange-400 rounded-2xl blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                <div class="relative bg-white/10 p-2.5 rounded-2xl flex items-center justify-center border border-white/20">
+                    <svg class="w-8 h-8 text-pink-400 drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Antennas -->
+                        <path d="M7 3L11 7" />
+                        <path d="M17 3L13 7" />
+                        <!-- TV Body -->
+                        <rect x="2" y="7" width="20" height="14" rx="4" ry="4" fill="currentColor" fill-opacity="0.15" />
+                        <!-- Cute Eyes -->
+                        <path d="M8 12.5 Q8 13.5 8 14.5" stroke-width="3" stroke-linecap="round" />
+                        <path d="M16 12.5 Q16 13.5 16 14.5" stroke-width="3" stroke-linecap="round" />
+                        <!-- Happy Mouth -->
+                        <path d="M9 17.5 Q12 20 15 17.5" />
+                    </svg>
+                </div>
             </div>
-            <h1 class="text-xl font-bold text-white tracking-tight hidden sm:block">IndoLive<span class="text-blue-500">TV</span></h1>
+            
+            <h1 class="text-3xl font-extrabold tracking-tight hidden sm:block">
+                TV <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">Ku</span>
+            </h1>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="relative">
-                <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="searchInput" placeholder="Search channels..." 
-                    class="bg-slate-900 border border-slate-700 text-sm rounded-full pl-9 pr-4 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-white placeholder-slate-400 w-48 sm:w-64 transition-all">
+        
+        <div class="flex items-center gap-3 sm:gap-4">
+            <div class="relative group">
+                <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-white/50 group-focus-within:text-pink-400 transition-colors"></i>
+                <input type="text" id="searchInput" placeholder="Cari channel..." 
+                    class="bg-black/20 border border-white/10 rounded-full pl-10 pr-4 py-2.5 focus:outline-none focus:border-pink-500 focus:ring-1 focus:ring-pink-500 text-white placeholder-white/40 w-48 sm:w-64 transition-all shadow-inner font-medium text-sm">
             </div>
-            <button onclick="fetchChannels()" class="p-2 text-blue-400 hover:text-blue-300 rounded-full hover:bg-slate-800 transition-colors bg-slate-800/50" title="Sync Channels from GitHub">
+            <button onclick="fetchChannels()" class="p-3 text-white/70 hover:text-white rounded-full hover:bg-white/10 transition-all active:scale-95 border border-transparent hover:border-white/20" title="Sync Channels">
                 <i data-lucide="refresh-cw" id="refreshListIcon" class="w-5 h-5"></i>
             </button>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden">
+    <main class="flex-1 flex flex-col lg:flex-row w-full overflow-hidden p-2 sm:p-4 gap-4">
         
         <!-- Left Column: Video Player & Info -->
-        <div class="flex-1 flex flex-col h-full overflow-y-auto bg-slate-950 p-4 sm:p-6 custom-scrollbar">
+        <div class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar rounded-3xl">
             
-            <div class="max-w-5xl w-full mx-auto flex flex-col gap-6">
-                <!-- Video Container -->
-                <div class="w-full bg-black rounded-2xl overflow-hidden shadow-2xl border border-slate-800 aspect-video relative group">
-                    <!-- Loading State -->
-                    <div id="playerLoading" class="absolute inset-0 flex items-center justify-center bg-slate-900 z-0">
-                        <div class="flex flex-col items-center gap-3">
-                            <i data-lucide="loader-2" class="w-8 h-8 text-blue-500 animate-spin"></i>
-                            <span class="text-sm text-slate-400 font-medium">Loading stream...</span>
+            <div class="max-w-6xl w-full mx-auto flex flex-col gap-4 pb-10">
+                <!-- Video Container (Glass Wrapped) -->
+                <div class="glass-panel p-2 sm:p-3 rounded-[2rem] w-full shadow-[0_0_40px_rgba(236,72,153,0.15)] relative">
+                    <div class="w-full bg-black rounded-3xl overflow-hidden aspect-video relative shadow-inner border border-white/5">
+                        <!-- Loading State -->
+                        <div id="playerLoading" class="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm z-0">
+                            <div class="flex flex-col items-center gap-4">
+                                <i data-lucide="loader-2" class="w-10 h-10 text-pink-500 animate-spin"></i>
+                                <span class="text-sm text-white/70 font-semibold tracking-wide bg-white/10 px-4 py-1.5 rounded-full border border-white/10">Menyiapkan siaran...</span>
+                            </div>
                         </div>
+                        
+                        <!-- The Iframe -->
+                        <iframe 
+                            id="tvPlayer" 
+                            class="w-full h-full relative z-10 bg-black" 
+                            src="" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
                     </div>
-                    
-                    <!-- The Iframe -->
-                    <iframe 
-                        id="tvPlayer" 
-                        class="w-full h-full relative z-10 bg-black" 
-                        src="" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
                 </div>
 
                 <!-- Current Channel Info -->
-                <div class="glass-panel rounded-2xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-4">
-                        <div id="currentChannelLogoWrapper" class="w-16 h-16 shrink-0 bg-white rounded-xl flex items-center justify-center p-2 shadow-inner border border-slate-200/10">
+                <div class="glass-panel rounded-3xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5 relative overflow-hidden">
+                    <!-- Decorative glow -->
+                    <div class="absolute -right-20 -top-20 w-40 h-40 bg-pink-500/20 blur-3xl rounded-full"></div>
+                    
+                    <div class="flex items-center gap-5 relative z-10">
+                        <div id="currentChannelLogoWrapper" class="w-20 h-20 shrink-0 bg-white rounded-2xl flex items-center justify-center p-2.5 shadow-xl border-4 border-white/20 transform hover:scale-105 transition-transform duration-300">
                             <img id="currentChannelLogo" src="" alt="" class="w-full h-full object-contain filter drop-shadow-sm hidden">
-                            <span id="currentFallbackTxt" class="text-slate-800 font-black text-xl">TV</span>
+                            <span id="currentFallbackTxt" class="text-slate-800 font-black text-2xl">TV</span>
                         </div>
                         <div>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="flex h-2 w-2 relative">
-                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                  <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="flex h-2.5 w-2.5 relative">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.8)]"></span>
                                 </span>
-                                <span class="text-xs font-semibold text-red-500 uppercase tracking-wider">Live Now</span>
+                                <span class="text-xs font-bold text-pink-400 uppercase tracking-widest">Live Sekarang</span>
                             </div>
-                            <h2 id="currentChannelName" class="text-2xl font-bold text-white">Select a Channel</h2>
+                            <h2 id="currentChannelName" class="text-3xl font-extrabold text-white">Pilih Channel</h2>
                         </div>
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="reloadPlayer()" class="px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors border border-slate-700 flex items-center gap-2 font-medium text-sm">
-                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reload
+                    <div class="flex gap-2 relative z-10">
+                        <button onclick="reloadPlayer()" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all border border-white/20 shadow-lg flex items-center gap-2 font-semibold text-sm backdrop-blur-md active:scale-95">
+                            <i data-lucide="rotate-cw" class="w-4 h-4"></i> Muat Ulang
                         </button>
                     </div>
                 </div>
@@ -138,17 +169,19 @@
         </div>
 
         <!-- Right Column: Channel Sidebar -->
-        <div class="w-full lg:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-slate-800 bg-slate-900/50 flex flex-col h-[40vh] lg:h-full z-10">
-            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80 backdrop-blur-md">
-                <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                    <i data-lucide="list-video" class="w-5 h-5 text-blue-500"></i>
-                    Channel List
+        <div class="w-full lg:w-[400px] shrink-0 glass-panel rounded-3xl flex flex-col h-[45vh] lg:h-full z-10 overflow-hidden shadow-2xl">
+            <div class="p-5 border-b border-white/10 flex items-center justify-between bg-white/5 backdrop-blur-md relative">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2.5">
+                    <div class="p-1.5 bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md">
+                        <i data-lucide="layout-grid" class="w-4 h-4 text-white"></i>
+                    </div>
+                    Daftar Channel
                 </h3>
-                <span class="text-xs font-medium bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-full border border-blue-500/20" id="channelCount">0 Channels</span>
+                <span class="text-xs font-bold bg-white/10 text-white px-3 py-1.5 rounded-full border border-white/20 shadow-inner" id="channelCount">0</span>
             </div>
             
             <!-- Scrollable List -->
-            <div id="channelList" class="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
+            <div id="channelList" class="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
                 <!-- Channel cards injected here -->
             </div>
         </div>
@@ -193,11 +226,11 @@
             for (const [key, logo] of Object.entries(channelLogos)) {
                 if (normalized.includes(key)) return logo;
             }
-            // Fallback UI Avatar
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(channelName)}&background=1e293b&color=3b82f6&bold=true`;
+            // Fallback UI Avatar - Adapted colors for fresh look
+            return `https://ui-avatars.com/api/?name=${encodeURIComponent(channelName)}&background=f472b6&color=fff&bold=true`;
         }
 
-        // Function 3: Table Parsing Logic
+        // Function 3: Table Parsing Logic (Unchanged core functionality)
         function parseMarkdownTableToChannels(markdownText) {
             const lines = markdownText.split('\n');
             const extractedChannels = [];
@@ -205,13 +238,11 @@
             let idCounter = 1;
 
             for (const line of lines) {
-                // Only process markdown table rows
                 if (!line.includes('|')) continue;
                 
                 const columns = line.split('|').map(col => col.trim());
                 let linkIndex = -1;
                 
-                // Find the column containing the URL
                 for (let i = 0; i < columns.length; i++) {
                     if (columns[i].includes('http')) {
                         linkIndex = i;
@@ -219,19 +250,16 @@
                     }
                 }
 
-                // If a link column is found and it is not the very first column
                 if (linkIndex > 0) {
                     let rawName = columns[linkIndex - 1];
                     let rawLink = columns[linkIndex];
                     
-                    // Extract URL (from Markdown [text](url) or HTML <a href="url"> or raw text)
                     let urlMatch = rawLink.match(/(https?:\/\/[^\s"'<)]+)/);
                     if (!urlMatch) continue;
                     let url = urlMatch[1];
 
-                    // Clean up Channel Name (Strip HTML and numbers)
-                    let name = rawName.replace(/<[^>]*>?/gm, ''); // Remove HTML tags
-                    name = name.replace(/^[\d.\s]+/, ''); // Remove leading numbers (e.g., "1.", "02 ", "12. ")
+                    let name = rawName.replace(/<[^>]*>?/gm, ''); 
+                    name = name.replace(/^[\d.\s]+/, ''); 
                     name = name.trim();
 
                     if (name && url && !processedUrls.has(url) && !url.includes('github.com')) {
@@ -253,7 +281,6 @@
             if (isFetching) return;
             isFetching = true;
             
-            // Get initial reference
             const initialIcon = document.getElementById('refreshListIcon');
             if(initialIcon) initialIcon.classList.add('animate-spin');
 
@@ -268,9 +295,8 @@
                         
                         const searchTerm = searchInput ? searchInput.value : '';
                         renderChannels(getFilteredChannels(searchTerm));
-                        channelCount.textContent = `${channels.length} Channels`;
+                        channelCount.textContent = `${channels.length} Saluran`;
                         
-                        // Auto-play first channel if none playing
                         if (!activeChannelId && channels.length > 0) {
                             playChannel(channels[0]);
                         }
@@ -280,7 +306,6 @@
                 console.error("Error fetching channels:", error);
             } finally {
                 isFetching = false;
-                // Re-query the icon because lucide.createIcons() replaces the DOM element during render
                 const currentIcon = document.getElementById('refreshListIcon');
                 if(currentIcon) currentIcon.classList.remove('animate-spin');
             }
@@ -289,8 +314,7 @@
         function init() {
             lucide.createIcons();
             fetchChannels();
-            // Auto-refresh every 5 minutes (300,000 ms)
-            setInterval(fetchChannels, 300000);
+            setInterval(fetchChannels, 300000); // 5 mins
 
             tvPlayer.addEventListener('load', () => {
                 playerLoading.style.display = 'none';
@@ -302,9 +326,11 @@
             
             if (channelsToRender.length === 0) {
                 channelListContainer.innerHTML = `
-                    <div class="text-center py-8 text-slate-500">
-                        <i data-lucide="tv-off" class="w-12 h-12 mx-auto mb-3 opacity-50"></i>
-                        <p>No channels found.</p>
+                    <div class="text-center py-10 text-white/50 flex flex-col items-center">
+                        <div class="bg-white/5 p-4 rounded-full mb-4">
+                            <i data-lucide="tv-off" class="w-10 h-10"></i>
+                        </div>
+                        <p class="font-medium">Tidak ada channel ditemukan.</p>
                     </div>
                 `;
                 lucide.createIcons();
@@ -314,37 +340,44 @@
             channelsToRender.forEach(channel => {
                 const isActive = channel.id === activeChannelId;
                 
+                // Card UI - Differentiated heavily for active vs inactive
+                const cardClasses = isActive 
+                    ? 'bg-gradient-to-r from-pink-500 to-orange-400 border-transparent shadow-[0_10px_20px_rgba(236,72,153,0.3)] transform scale-[102%] z-10' 
+                    : 'glass-card hover:bg-white/10 hover:scale-[102%] border-white/10 text-white/80 hover:text-white';
+                
+                const titleClasses = isActive ? 'text-white font-bold' : 'font-semibold';
+                const subClasses = isActive ? 'text-white/90' : 'text-white/50';
+                
                 const card = document.createElement('div');
-                card.className = `
-                    group cursor-pointer rounded-xl p-3 flex items-center gap-4 transition-all duration-200 border
-                    ${isActive 
-                        ? 'bg-blue-600/10 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
-                        : 'bg-slate-800/40 border-transparent hover:bg-slate-800 hover:border-slate-700'}
-                `;
+                card.className = `group cursor-pointer rounded-2xl p-3 flex items-center gap-4 transition-all duration-300 relative border ${cardClasses}`;
                 card.onclick = () => playChannel(channel);
 
                 card.innerHTML = `
-                    <div class="w-14 h-10 shrink-0 bg-white rounded-lg p-1 flex items-center justify-center relative overflow-hidden shadow-sm">
+                    <div class="w-16 h-12 shrink-0 bg-white rounded-xl p-1.5 flex items-center justify-center relative overflow-hidden shadow-md">
                         <img src="${channel.logo}" alt="${channel.name}" class="w-full h-full object-contain z-10"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="hidden text-slate-800 font-bold text-[10px] uppercase text-center leading-none">${channel.name.substring(0,4)}</span>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <h4 class="text-sm font-semibold truncate ${isActive ? 'text-blue-400' : 'text-slate-200 group-hover:text-white'}">
+                        <h4 class="text-base truncate ${titleClasses}">
                             ${channel.name}
                         </h4>
-                        <div class="flex items-center gap-1.5 mt-0.5 opacity-70">
-                            <i data-lucide="radio" class="w-3 h-3 ${isActive ? 'text-red-400' : 'text-slate-400'}"></i>
-                            <span class="text-[11px] text-slate-400">Live</span>
+                        <div class="flex items-center gap-1.5 mt-0.5">
+                            <i data-lucide="radio" class="w-3.5 h-3.5 ${isActive ? 'text-white animate-pulse' : 'text-pink-400'}"></i>
+                            <span class="text-[11px] font-medium tracking-wide uppercase ${subClasses}">LIVE</span>
                         </div>
                     </div>
                     ${isActive ? `
-                        <div class="flex h-3 items-center justify-center gap-0.5 pr-1">
-                            <div class="w-1 h-1.5 bg-blue-500 rounded-full animate-[bounce_1s_infinite_0ms]"></div>
-                            <div class="w-1 h-2.5 bg-blue-500 rounded-full animate-[bounce_1s_infinite_200ms]"></div>
-                            <div class="w-1 h-3 bg-blue-500 rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+                        <div class="flex h-4 items-center justify-center gap-0.5 pr-2">
+                            <div class="w-1.5 h-2 bg-white rounded-full animate-[bounce_1s_infinite_0ms]"></div>
+                            <div class="w-1.5 h-3 bg-white rounded-full animate-[bounce_1s_infinite_200ms]"></div>
+                            <div class="w-1.5 h-4 bg-white rounded-full animate-[bounce_1s_infinite_400ms]"></div>
                         </div>
-                    ` : ''}
+                    ` : `
+                        <div class="pr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i data-lucide="play-circle" class="w-6 h-6 text-white/50"></i>
+                        </div>
+                    `}
                 `;
                 
                 channelListContainer.appendChild(card);
