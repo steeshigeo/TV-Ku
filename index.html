@@ -93,6 +93,7 @@
             
             <h1 class="text-3xl font-extrabold tracking-tight hidden sm:block">
                 TV <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">Ku</span>
+                <span class="text-xs text-white/50 font-medium tracking-normal align-middle ml-2 pb-2 inline-block">by frans</span>
             </h1>
         </div>
         
@@ -117,7 +118,7 @@
             <div class="max-w-6xl w-full mx-auto flex flex-col gap-4 pb-10">
                 <!-- Video Container (Glass Wrapped) -->
                 <div class="glass-panel p-2 sm:p-3 rounded-[2rem] w-full shadow-[0_0_40px_rgba(236,72,153,0.15)] relative">
-                    <div class="w-full bg-black rounded-3xl overflow-hidden aspect-video relative shadow-inner border border-white/5">
+                    <div id="videoWrapper" class="w-full bg-black rounded-3xl overflow-hidden aspect-video relative shadow-inner border border-white/5">
                         <!-- Loading State -->
                         <div id="playerLoading" class="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-sm z-0">
                             <div class="flex flex-col items-center gap-4">
@@ -135,6 +136,43 @@
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen>
                         </iframe>
+                    </div>
+                </div>
+
+                <!-- Custom Player Controls (Frosted Glass) -->
+                <div class="glass-panel rounded-2xl p-3 px-4 sm:px-6 flex items-center justify-between shadow-lg mb-1">
+                    <!-- Left: Play & Volume -->
+                    <div class="flex items-center gap-3 sm:gap-6">
+                        <button onclick="simulatePlayerAction('play')" class="text-white hover:text-pink-400 transition-colors focus:outline-none active:scale-95" title="Play/Pause">
+                            <i data-lucide="play" class="w-5 h-5 sm:w-6 sm:h-6 fill-current"></i>
+                        </button>
+                        <div class="flex items-center gap-2 group cursor-pointer">
+                            <button onclick="simulatePlayerAction('mute')" class="text-white hover:text-pink-400 transition-colors focus:outline-none active:scale-95" title="Mute/Unmute">
+                                <i data-lucide="volume-2" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                            </button>
+                            <input type="range" min="0" max="100" value="100" 
+                                class="w-16 sm:w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-pink-500 opacity-70 group-hover:opacity-100 transition-opacity hidden sm:block" 
+                                onchange="simulatePlayerAction('volume')" title="Volume">
+                        </div>
+                    </div>
+
+                    <!-- Center: Live Indicator -->
+                    <div class="flex items-center gap-2 bg-black/20 px-3 sm:px-4 py-1.5 rounded-full border border-white/10">
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                        <span class="text-xs font-bold text-red-500 tracking-wider">LIVE</span>
+                    </div>
+
+                    <!-- Right: Settings & Maximize -->
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <button onclick="simulatePlayerAction('quality')" class="text-white hover:text-pink-400 transition-colors focus:outline-none active:scale-95" title="Kualitas Video">
+                            <i data-lucide="settings" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        </button>
+                        <button onclick="toggleFullscreen()" class="text-white hover:text-pink-400 transition-colors focus:outline-none active:scale-95" title="Layar Penuh">
+                            <i data-lucide="maximize" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -188,24 +226,35 @@
 
     </main>
 
+    <!-- Toast Notification System -->
+    <div id="toastMessage" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-md text-white px-6 py-3 rounded-full border border-white/20 shadow-[0_10px_30px_rgba(236,72,153,0.3)] flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none z-[100] w-max max-w-[90vw]">
+        <i data-lucide="info" class="w-5 h-5 text-pink-400 shrink-0"></i>
+        <span id="toastText" class="text-sm font-medium">Message</span>
+    </div>
+
     <script>
         let channels = [];
         const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/yogibagus/Daftar-Embed-LIVE-STREAM-Channel-TV-Indonesia/main/README.md';
 
         // Known TV Channel Logos Map (Wikimedia Commons)
         const channelLogos = {
-            'rcti': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/RCTI_2022.svg/512px-RCTI_2022.svg.png',
-            'sctv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/SCTV_Logo_2005.svg/512px-SCTV_Logo_2005.svg.png',
-            'transtv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Trans_TV_logo_2013.svg/512px-Trans_TV_logo_2013.svg.png',
-            'trans7': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/TRANS7_logo_2013.svg/512px-TRANS7_logo_2013.svg.png',
-            'indosiar': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Indosiar_2014.svg/512px-Indosiar_2014.svg.png',
-            'antv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/ANTV_2009.svg/512px-ANTV_2009.svg.png',
-            'gtv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/GTV_2017.svg/512px-GTV_2017.svg.png',
-            'mnctv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/MNCTV_2010.svg/512px-MNCTV_2010.svg.png',
-            'tvone': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/TvOne_logo.svg/512px-TvOne_logo.svg.png',
-            'metrotv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Metro_TV_2010.svg/512px-Metro_TV_2010.svg.png',
-            'kompastv': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Kompas_TV_2016.svg/512px-Kompas_TV_2016.svg.png',
-            'net': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/NET._Logo.svg/512px-NET._Logo.svg.png'
+            "RCTI": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/RCTI_2015.svg/256px-RCTI_2015.svg.png",
+            "SCTV": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/SCTV_2022.svg/256px-SCTV_2022.svg.png",
+            "TRANS TV": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Trans_TV_2013.svg/256px-Trans_TV_2013.svg.png",
+            "TRANS7": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Trans7_2013.svg/256px-Trans7_2013.svg.png",
+            "INDOSIAR": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Indosiar_2014.svg/256px-Indosiar_2014.svg.png",
+            "MNCTV": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/MNCTV_2010.svg/256px-MNCTV_2010.svg.png",
+            "GTV": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/GTV_2017.svg/256px-GTV_2017.svg.png",
+            "ANTV": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/ANTV_2016.svg/256px-ANTV_2016.svg.png",
+            "RTV": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/RTV_2014.svg/256px-RTV_2014.svg.png",
+            "TVONE": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/TvOne_2017.svg/256px-TvOne_2017.svg.png",
+            "METRO TV": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/MetroTV_2010.svg/256px-MetroTV_2010.svg.png",
+            "KOMPAS TV": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Kompas_TV_2016.svg/256px-Kompas_TV_2016.svg.png",
+            "INEWS": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/INews_2017.svg/256px-INews_2017.svg.png",
+            "NET": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/NET_2014.svg/256px-NET_2014.svg.png",
+            "CNN INDONESIA": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/CNN_Indonesia_2015.svg/256px-CNN_Indonesia_2015.svg.png",
+            "CNBC INDONESIA": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/CNBC_Indonesia_2018.svg/256px-CNBC_Indonesia_2018.svg.png",
+            "TVRI": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/TVRI_2019.svg/256px-TVRI_2019.svg.png"
         };
 
         let activeChannelId = null;
@@ -220,14 +269,11 @@
         const searchInput = document.getElementById('searchInput');
         const playerLoading = document.getElementById('playerLoading');
 
-        // Function 5: Map logo from name
-        function getLogoUrl(channelName) {
-            const normalized = channelName.toLowerCase().replace(/[^a-z0-9]/g, '');
-            for (const [key, logo] of Object.entries(channelLogos)) {
-                if (normalized.includes(key)) return logo;
-            }
-            // Fallback UI Avatar - Adapted colors for fresh look
-            return `https://ui-avatars.com/api/?name=${encodeURIComponent(channelName)}&background=f472b6&color=fff&bold=true`;
+        // Helper to find logo
+        function getLogo(channelName) {
+            const upperName = channelName.toUpperCase();
+            const key = Object.keys(channelLogos).find(k => upperName.includes(k));
+            return key ? channelLogos[key] : `https://ui-avatars.com/api/?name=${encodeURIComponent(channelName)}&background=random&color=fff&rounded=true&bold=true`;
         }
 
         // Function 3: Table Parsing Logic (Unchanged core functionality)
@@ -267,7 +313,7 @@
                         extractedChannels.push({
                             id: 'ch_' + idCounter++,
                             name: name,
-                            logo: getLogoUrl(name),
+                            logo: getLogo(name),
                             embedUrl: url
                         });
                     }
@@ -420,6 +466,27 @@
             setTimeout(() => { tvPlayer.src = currentSrc; }, 300);
         }
 
+        function toggleMaximize() {
+            const videoCapsule = document.getElementById('videoCapsule');
+            if (!document.fullscreenElement) {
+                if (videoCapsule.requestFullscreen) {
+                    videoCapsule.requestFullscreen();
+                } else if (videoCapsule.webkitRequestFullscreen) { /* Safari */
+                    videoCapsule.webkitRequestFullscreen();
+                } else if (videoCapsule.msRequestFullscreen) { /* IE11 */
+                    videoCapsule.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
+            }
+        }
+
         function getFilteredChannels(query) {
             const term = query.toLowerCase().trim();
             if (!term) return channels;
@@ -431,6 +498,58 @@
                 const filtered = getFilteredChannels(e.target.value);
                 renderChannels(filtered);
             });
+        }
+
+        // --- Custom Controls & CORS Fallback Logic ---
+        let toastTimeout;
+        
+        function showToast(message) {
+            const toast = document.getElementById('toastMessage');
+            const toastText = document.getElementById('toastText');
+            
+            toastText.textContent = message;
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 3500);
+        }
+
+        function simulatePlayerAction(action) {
+            // Browsers block external scripts from altering iframes cross-origin.
+            // These toasts inform the user elegantly to use the iframe's internal UI.
+            const messages = {
+                'play': 'Gunakan kontrol bawaan di dalam video untuk Play/Pause.',
+                'mute': 'Gunakan ikon suara di dalam video untuk mengatur Mute.',
+                'volume': 'Volume dikendalikan langsung dari dalam pemutar video.',
+                'quality': 'Pengaturan resolusi/kualitas tersedia di dalam pemutar video.'
+            };
+            showToast(messages[action] || 'Tindakan ini dikendalikan oleh pemutar video.');
+        }
+
+        function toggleFullscreen() {
+            // We fullscreen the wrapper so it retains the black background & layout securely
+            const videoContainer = document.getElementById('videoWrapper');
+            if (!document.fullscreenElement) {
+                if (videoContainer.requestFullscreen) {
+                    videoContainer.requestFullscreen();
+                } else if (videoContainer.webkitRequestFullscreen) { /* Safari */
+                    videoContainer.webkitRequestFullscreen();
+                } else if (videoContainer.msRequestFullscreen) { /* IE11 */
+                    videoContainer.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
         }
 
         document.addEventListener('DOMContentLoaded', init);
