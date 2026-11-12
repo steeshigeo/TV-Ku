@@ -60,7 +60,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200 font-sans min-h-screen flex flex-col overflow-hidden">
+<body class="bg-slate-950 text-slate-200 font-sans h-screen flex flex-col overflow-hidden">
 
     <!-- Navbar -->
     <nav class="shrink-0 z-50 glass-panel border-b border-slate-800 px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -148,7 +148,7 @@
             </div>
             
             <!-- Scrollable List -->
-            <div id="channelList" class="flex-1 overflow-y-auto p-3 space-y-2">
+            <div id="channelList" class="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
                 <!-- Channel cards injected here -->
             </div>
         </div>
@@ -253,8 +253,9 @@
             if (isFetching) return;
             isFetching = true;
             
-            const refreshBtnIcon = document.getElementById('refreshListIcon');
-            if(refreshBtnIcon) refreshBtnIcon.classList.add('animate-spin');
+            // Get initial reference
+            const initialIcon = document.getElementById('refreshListIcon');
+            if(initialIcon) initialIcon.classList.add('animate-spin');
 
             try {
                 let response = await fetch(GITHUB_RAW_URL);
@@ -279,7 +280,9 @@
                 console.error("Error fetching channels:", error);
             } finally {
                 isFetching = false;
-                if(refreshBtnIcon) refreshBtnIcon.classList.remove('animate-spin');
+                // Re-query the icon because lucide.createIcons() replaces the DOM element during render
+                const currentIcon = document.getElementById('refreshListIcon');
+                if(currentIcon) currentIcon.classList.remove('animate-spin');
             }
         }
 
